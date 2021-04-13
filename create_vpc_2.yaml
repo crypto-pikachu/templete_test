@@ -11,15 +11,15 @@ Resources:
         - Key: Name
           Value: "test2-vpc"
 
-  public-subnet-1a:
+  subnet1:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC2
-    CidrBlock: 10.0.0.0/24
-    AvailabilityZone: "ap-northeast-1a"
-    Tags:
-    - Key: stack
-      Value: production
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: "ap-northeast-1a"
+      Tags:
+      - Key: Name
+        Value: "publlic-subnet-1a"
 
   InternetGateway:
     Type: "AWS::EC2::InternetGateway"
