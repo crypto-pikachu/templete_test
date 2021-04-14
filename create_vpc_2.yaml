@@ -21,6 +21,16 @@ Resources:
       - Key: Name
         Value: "publlic-subnet-1a"
 
+  subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC2
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: "ap-northeast-1c"
+      Tags:
+      - Key: Name
+        Value: "publlic-subnet-1c"
+
   InternetGateway:
     Type: "AWS::EC2::InternetGateway"
     Properties:
