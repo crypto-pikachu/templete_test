@@ -4,6 +4,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: ec2-sg-cf
+      GroupDescription: Allow SSH and HTTP access
       VpcId: "vpc-0e3e5318a67c26be2"
       SecurityGroupIngress:
         # http
