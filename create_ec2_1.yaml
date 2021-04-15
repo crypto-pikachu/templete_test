@@ -22,7 +22,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: ami-06098fd00463352b6 
-      KeyName: "AWS::EC2::KeyPair::KeyName"
+      KeyName: "AWS::EC2::KeyPair::aws_test"
       InstanceType: t2.micro
       NetworkInterfaces: 
         - AssociatePublicIpAddress: "true"
