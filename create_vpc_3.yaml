@@ -3,7 +3,7 @@ Resources:
   subnet1:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: "vpc-0e3e5318a67c26be2"
+      VpcId: "vpc-0567c51bac5c68c01"
       CidrBlock: 10.0.2.0/24
       AvailabilityZone: "ap-northeast-1a"
       Tags:
@@ -13,7 +13,7 @@ Resources:
   subnet2:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: "vpc-0e3e5318a67c26be2"
+      VpcId: "vpc-0567c51bac5c68c01"
       CidrBlock: 10.0.3.0/24
       AvailabilityZone: "ap-northeast-1c"
       Tags:
