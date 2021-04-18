@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: "vpc-0e3e5318a67c26be2"
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: "ap-northeast-1a"
+      Tags:
+      - Key: Name
+        Value: "private-subnet-1a"
+
+  subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: "vpc-0e3e5318a67c26be2"
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: "ap-northeast-1c"
+      Tags:
+      - Key: Name
+        Value: "private-subnet-1c"
