@@ -5,7 +5,7 @@ Resources:
     Properties:
       GroupName: ec2-sg-cf
       GroupDescription: Allow SSH and HTTP access
-      VpcId: "vpc-0e3e5318a67c26be2"
+      VpcId: "vpc-0567c51bac5c68c01"
       SecurityGroupIngress:
         # http
         - IpProtocol: tcp
@@ -27,7 +27,7 @@ Resources:
       NetworkInterfaces: 
         - AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
-          SubnetId: "subnet-06a8e44aa15e0055b"
+          SubnetId: "subnet-069db02b171106873"
           GroupSet:
             - !Ref EC2SG
       Tags:

@@ -19,3 +19,12 @@ Resources:
       Tags:
       - Key: Name
         Value: "private-subnet-1c"
+
+  DBSubnetGroup: 
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties: 
+      DBSubnetGroupName: "subnet-group-rds"
+      DBSubnetGroupDescription: "subnet-group-rds"
+      SubnetIds: 
+        - !Ref subnet1
+        - !Ref subnet2
