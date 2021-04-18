@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: "vpc-0567c51bac5c68c01"
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: "ap-northeast-1a"
+      Tags:
+      - Key: Name
+        Value: "private-subnet-1a"
+
+  subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: "vpc-0567c51bac5c68c01"
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: "ap-northeast-1c"
+      Tags:
+      - Key: Name
+        Value: "private-subnet-1c"
+
+  DBSubnetGroup: 
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties: 
+      DBSubnetGroupName: "subnet-group-rds"
+      DBSubnetGroupDescription: "subnet-group-rds"
+      SubnetIds: 
+        - !Ref subnet1
+        - !Ref subnet2
+
+  DBInstance: 
+    Type: "AWS::RDS::DBInstance"
+    Properties: 
+      DBInstanceIdentifier: "rds-test"
+      Engine: MySQL
+      EngineVersion: "8.0.20"
+      DBInstanceClass: "db.t2.micro"
+      AllocatedStorage: "20"
+      StorageType: "gp2"
+      DBName: "db-test"
+      MasterUsername: "root"
+      MasterUserPassword: "p@ssw0rd"
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      PubliclyAccessible: false
+      MultiAZ: false
+#      PreferredBackupWindow: "18:00-18:30"
+#      PreferredMaintenanceWindow: "sat:19:00-sat:19:30"
+      AutoMinorVersionUpgrade: false
+#      DBParameterGroupName: !Ref DBParameterGroup 
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      CopyTagsToSnapshot: true
+      BackupRetentionPeriod: 7
+      Tags: 
+        - Key: "Name"
+          Value: "rds-test"
+    DeletionPolicy: "Delete"
+
+  RDSSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      VpcId: "vpc-0567c51bac5c68c01"
+      GroupName: "rds-sg"
+      GroupDescription: "rds-sg"
+      Tags:
+        - Key: "Name"
+          Value: "rds-sg"
+# Rule
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: { "Fn::ImportValue": "10.0.0.0/16" }
