@@ -18,7 +18,7 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
 
-  EC2-1: 
+  EC2A: 
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: ami-06098fd00463352b6 
@@ -34,7 +34,7 @@ Resources:
           - Key: Name
             Value: ec2-test1
 
-  EC2-2: 
+  EC2B: 
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: ami-06098fd00463352b6 
