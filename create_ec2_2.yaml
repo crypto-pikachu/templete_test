@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  EC2SG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: ec2-sg-cf
+      GroupDescription: Allow SSH and HTTP access
+      VpcId: "vpc-0567c51bac5c68c01"
+      SecurityGroupIngress:
+        # http
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        # ssh
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  EC2-1: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: ami-06098fd00463352b6 
+      KeyName: aws_test
+      InstanceType: t2.micro
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: "subnet-069db02b171106873"
+          GroupSet:
+            - !Ref EC2SG
+      Tags:
+          - Key: Name
+            Value: ec2-test1
+
+  EC2-2: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: ami-06098fd00463352b6 
+      KeyName: aws_test
+      InstanceType: t2.micro
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: "subnet-0e74f3c6b9dddb4f8"
+          GroupSet:
+            - !Ref EC2SG
+      Tags:
+          - Key: Name
+            Value: ec2-test2
