@@ -74,7 +74,7 @@ Resources:
   subnet3:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: "vpc-0567c51bac5c68c01"
+      VpcId: !Ref VPC
       CidrBlock: 10.0.2.0/24
       AvailabilityZone: "ap-northeast-1a"
       Tags:
@@ -84,7 +84,7 @@ Resources:
   subnet4:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: "vpc-0567c51bac5c68c01"
+      VpcId: !Ref VPC
       CidrBlock: 10.0.3.0/24
       AvailabilityZone: "ap-northeast-1c"
       Tags:
@@ -100,33 +100,33 @@ Resources:
         - !Ref subnet3
         - !Ref subnet4
 
-  Outputs:
-    VpcOutput:
-      Value: !Ref VPC
-      Export:
-        Name: "vpc-test1"
+Outputs:
+  VpcOutput:
+    Value: !Ref VPC
+    Export:
+      Name: "vpc-test1"
 
-    subnet1Output:
-      Value: !Ref subnet1
-      Export:
-        Name: "publlic-subnet-1a"
+  subnet1Output:
+    Value: !Ref subnet1
+    Export:
+      Name: "publlic-subnet-1a"
 
-    subnet2Output:
-      Value: !Ref subnet2
-      Export:
-        Name: "publlic-subnet-1c"
+  subnet2Output:
+    Value: !Ref subnet2
+    Export:
+      Name: "publlic-subnet-1c"
 
-    subnet3Output:
-      Value: !Ref subnet3
-      Export:
-        Name: "private-subnet-1a"
+  subnet3Output:
+    Value: !Ref subnet3
+    Export:
+      Name: "private-subnet-1a"
 
-    subnet4Output:
-      Value: !Ref subnet4
-      Export:
-        Name: "private-subnet-1c"
+  subnet4Output:
+    Value: !Ref subnet4
+    Export:
+      Name: "private-subnet-1c"
 
-    DBsubnetGroupOutput:
-      Value: !Ref DBSubnetGroup
-      Export:
-        Name: "subnet-group-rds"
+  DBsubnetGroupOutput:
+    Value: !Ref DBSubnetGroup
+    Export:
+      Name: "subnet-group-rds"
