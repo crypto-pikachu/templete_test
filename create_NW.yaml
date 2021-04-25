@@ -100,3 +100,33 @@ Resources:
         - !Ref subnet3
         - !Ref subnet4
 
+  Outputs:
+    VpcOutput:
+      Value: !Ref VPC
+      Export:
+        Name: "vpc-test1"
+
+    subnet1Output:
+      Value: !Ref subnet1
+      Export:
+        Name: "publlic-subnet-1a"
+
+    subnet2Output:
+      Value: !Ref subnet2
+      Export:
+        Name: "publlic-subnet-1c"
+
+    subnet3Output:
+      Value: !Ref subnet3
+      Export:
+        Name: "private-subnet-1a"
+
+    subnet4Output:
+      Value: !Ref subnet4
+      Export:
+        Name: "private-subnet-1c"
+
+    DBsubnetGroupOutput:
+      Value: !Ref DBSubnetGroup
+      Export:
+        Name: "subnet-group-rds"
