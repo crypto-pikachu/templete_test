@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  DBInstance: 
+    Type: "AWS::RDS::DBInstance"
+    Properties: 
+      DBInstanceIdentifier: "rds-test1"
+      Engine: MySQL
+      EngineVersion: "8.0.20"
+      DBInstanceClass: "db.t2.micro"
+      AllocatedStorage: "20"
+      StorageType: "gp2"
+      DBName: "dbtest1"
+      MasterUsername: "root"
+      MasterUserPassword: "passw0rd"
+      DBSubnetGroupName: !ImportValue subnet-group-rds
+      PubliclyAccessible: false
+      MultiAZ: false
+#      PreferredBackupWindow: "18:00-18:30"
+#      PreferredMaintenanceWindow: "sat:19:00-sat:19:30"
+      AutoMinorVersionUpgrade: false
+#      DBParameterGroupName: !Ref DBParameterGroup 
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      CopyTagsToSnapshot: true
+      BackupRetentionPeriod: 7
+      Tags: 
+        - Key: "Name"
+          Value: "rds-test1"
+    DeletionPolicy: "Delete"
+
+  RDSSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      VpcId: !ImportValue vpc-test1
+      GroupName: "rds-sg"
+      GroupDescription: "rds-sg"
+      Tags:
+        - Key: "Name"
+          Value: "rds-sg"
+# Rule
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 10.0.0.0/16
+
+Outputs:
+  DBInstanceOutput:
+    Value: !Ref DBInstance
+    Export:
+      Name: "rds-test1"

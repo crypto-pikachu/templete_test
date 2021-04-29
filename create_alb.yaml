@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  SGloadbalancer:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: alb-sg
+      GroupDescription: alb-sg
+      VpcId: !ImportValue vpc-test1 
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: alb-sg
+
+  TargetGroup: 
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    Properties: 
+      VpcId: !ImportValue vpc-test1
+      Name: tg-test
+      Protocol: HTTP
+      Port: 80
+      HealthCheckProtocol: HTTP
+      HealthCheckPath: "/"
+      HealthCheckPort: "traffic-port"
+      HealthyThresholdCount: 5
+      UnhealthyThresholdCount: 2
+      HealthCheckTimeoutSeconds: 5
+      HealthCheckIntervalSeconds: 30
+      Matcher: 
+        HttpCode: 200
+      Targets: 
+        - Id: !ImportValue ec2-test1
+        - Id: !ImportValue ec2-test2
+          Port: 80
+
+  InternetALB: 
+    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+    Properties: 
+      Name: alb-test
+      Scheme: "internet-facing"
+      LoadBalancerAttributes: 
+        - Key: "deletion_protection.enabled"
+          Value: false
+        - Key: "idle_timeout.timeout_seconds"
+          Value: 4000
+      SecurityGroups:
+        - !Ref SGloadbalancer
+      Subnets: 
+        - !ImportValue publlic-subnet-1a
+        - !ImportValue publlic-subnet-1c
+
+  ALBListener: 
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties: 
+      DefaultActions: 
+        - TargetGroupArn: !Ref TargetGroup
+          Type: forward
+      LoadBalancerArn: !Ref InternetALB
+      Port: 80
+      Protocol: HTTP
