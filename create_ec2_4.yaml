@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  EC2SG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: ec2-sg-cf
+      GroupDescription: Allow SSH and HTTP access
+      VpcId: !ImportValue vpc-test3
+      SecurityGroupIngress:
+        # http
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        # ssh
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  myEIPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties: 
+      EIP: !ImportValue EIP1
+      InstanceId: !Ref EC2A
+
+  EC2A: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: ami-06098fd00463352b6 
+      KeyName: aws_test
+      InstanceType: t2.micro
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: !ImportValue publlic-subnet-1a
+          GroupSet:
+            - !Ref EC2SG
+      Tags:
+          - Key: Name
+            Value: EC2A
+
+Outputs:
+  EC2AOutput:
+    Value: !Ref EC2A
+    Export:
+      Name: "ec2-test3"
