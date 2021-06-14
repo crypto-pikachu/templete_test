@@ -36,6 +36,9 @@ Resources:
           SubnetId: !ImportValue publlic-subnet-1a
           GroupSet:
             - !Ref EC2SG
+      UserData: !Base64 |
+        #!/bin/bash
+        sudo yum update -y
       Tags:
           - Key: Name
             Value: EC2A
